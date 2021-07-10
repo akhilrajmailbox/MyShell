@@ -1,0 +1,14 @@
+#!/bin/bash
+
+####################################################
+# common #
+####################################################
+
+# setting byobu
+if ! env | grep -i byobu > /dev/null ; then
+    byobu
+fi
+
+
+export PATH=${PATH}
+alias zz="cd /Users/akhil/Documents/sources/"
