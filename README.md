@@ -27,11 +27,12 @@ sed -i 's|^ZSH_THEME=.*|ZSH_THEME="agnoster"|g' ~/.zshrc
 echo 'RPROMPT="%@"' >> ~/.oh-my-zsh/themes/agnoster.zsh-theme
 ```
 
-### Installing Cowsay and Lolcat
+### Installing Cowsay, Lolcat and Terminal Notifier
 
 ```shell
 brew install cowsay
 sudo gem install lolcat
+brew install terminal-notifier
 ```
 
 ### Customizing Profile

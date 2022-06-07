@@ -1,0 +1,90 @@
+#!/bin/bash
+
+OWNER_USER=akhil
+WAIT_TIME=60
+MyScriptName=`basename ${0}`
+
+function getPid() {
+    MM_PID=$(ps -ef | grep -v grep | grep -v kill | grep -i ${MyScriptName} | awk '{print $2}' | head -1)
+    PID_SIZE=$(ps -ef | grep -v grep | grep -i ${MyScriptName} | wc -l)
+}
+
+function getAlert() {
+    if type terminal-notifier >/dev/null 2>&1 ; then
+        getPid
+        if type tput >/dev/null 2>&1 ; then
+            tput bel; terminal-notifier -title "${OWNER_USER}'s Terminal" -message "Mouse Mover is Running...! (Process ID : ${MM_PID})"
+        else
+            terminal-notifier -title "${OWNER_USER}'s Terminal" -message "Mouse Mover is Running...! (Process ID : ${MM_PID})"
+        fi
+    fi
+}
+
+function getMouseLoc() {
+    X_POINT_LOCATION=$(( ( RANDOM % 1000 )  + 1 ))
+    Y_POINT_LOCATION=$(( ( RANDOM % 1000 )  + 1 ))
+    POINT_LOCATION=${X_POINT_LOCATION},${Y_POINT_LOCATION}
+}
+
+function mvMouse() {
+    getPid
+    if [[ ${PID_SIZE} -gt 2 ]] ; then
+        echo "Mouse Mover is already running...! (Process ID : ${MM_PID})"
+        exit 1
+    else
+        while true; do
+            getMouseLoc
+            `dirname ${0}`/cliclick m:${POINT_LOCATION}
+            getAlert
+            sleep ${WAIT_TIME}
+        done
+    fi
+}
+
+function killMe() {
+    if ps -ef | grep -v grep | grep -v kill | grep -i ${MyScriptName} >/dev/null 2>&1 ; then
+        echo "Killing the Mouse Mover Process ID $(ps -ef | grep -v grep | grep -v kill | grep -i ${MyScriptName} | awk '{print $2}')"
+        kill -9 $(ps -ef | grep -v grep | grep -v kill | grep -i ${MyScriptName} | awk '{print $2}')
+    else
+        echo "No Mouse Mover process found..!"
+        exit 1
+    fi
+}
+
+
+function myhelp() {
+cat << EOF
+need to pass one arg
+usage : ${0} [arg]
+options :
+    help                    :       Get Help !!!!
+    fgmove                  :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Foreground
+    bgmove                  :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Background
+    kill                    :       shutdown the process
+EOF
+}
+
+
+
+
+
+if [[ ${USER} == ${OWNER_USER} ]] ; then
+    if [[ ! -z ${1} ]] ; then
+        if [[ ${1} == "fgmove" ]] ; then
+            mvMouse
+        elif [[ ${1} == "bgmove" ]] ; then
+            mvMouse &
+        elif [[ ${1} == "kill" ]] ; then
+            killMe
+        else
+            myhelp
+            exit 1
+        fi
+    else
+        myhelp
+        exit 1
+    fi
+else
+    echo "You must be ${OWNER_USER} to do this." 1>&2
+    exit 1
+fi
