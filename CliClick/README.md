@@ -7,25 +7,25 @@ Add this folder in your system PATH before trying out...!
 ## Get Help
 
 ```shell
-moveMouse help
+mouseMover help
 ```
 
 ## Move Mouse Point Automcatically in Foreground
 
 ```shell
-moveMouse fgmove
+mouseMover fg
 ```
 
 ## Move Mouse Point Automcatically in Background
 
 ```shell
-moveMouse bgmove
+mouseMover bg
 ```
 
 ## Kill the Mouse Mover process
 
 ```shell
-moveMouse kill
+mouseMover kill
 ```
 
 **Make sure that This directory is in your PATH**

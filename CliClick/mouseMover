@@ -58,8 +58,8 @@ need to pass one arg
 usage : ${0} [arg]
 options :
     help                    :       Get Help !!!!
-    fgmove                  :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Foreground
-    bgmove                  :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Background
+    fg                      :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Foreground
+    bg                      :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Background
     kill                    :       shutdown the process
 EOF
 }
@@ -70,9 +70,9 @@ EOF
 
 if [[ ${USER} == ${OWNER_USER} ]] ; then
     if [[ ! -z ${1} ]] ; then
-        if [[ ${1} == "fgmove" ]] ; then
+        if [[ ${1} == "fg" ]] ; then
             mvMouse
-        elif [[ ${1} == "bgmove" ]] ; then
+        elif [[ ${1} == "bg" ]] ; then
             mvMouse &
         elif [[ ${1} == "kill" ]] ; then
             killMe
