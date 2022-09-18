@@ -9,6 +9,12 @@ if ! env | grep -i byobu > /dev/null ; then
     byobu
 fi
 
+# open Audacity with microphone permission to work
+alias audacity="open /Applications/Audacity.app/Contents/MacOS/Audacity"
 
-export PATH=${PATH}
-alias zz="cd /Users/akhil/Documents/sources/"
+export PATH=${PATH}:/usr/local/bin/google-cloud-sdk/bin
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/bin/google-cloud-sdk/completion.zsh.inc'; fi
+
+# export PATH=${PATH}
+alias zz="cd /Users/akhilraj/Documents/sources"
