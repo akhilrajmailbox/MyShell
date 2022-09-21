@@ -1,0 +1,34 @@
+#!/bin/bash
+export Repo="/Users/akhilraj/Documents/sources/REPO_NAME"
+export TagName=${1}
+
+if [[ ! -d ${Repo} ]] ; then
+    echo "Failed to find the Repository : ${Repo}"
+fi
+
+if [[ ${TagName} == "" ]] ; then
+    export TagName="tag-$(date +%d%b%Y)"
+fi
+
+function checkTag() {
+    if [ $(git tag -l "${TagName}") ] ; then
+        TagExist=true
+    else
+        TagExist=false
+    fi
+}
+
+function repoBackup() {
+    cd ${Repo} >/dev/null
+    checkTag
+    if [[ ${TagExist} == false ]] ; then
+        git tag ${TagName}
+        git push origin --tags
+    else
+        echo "${TagName} Already exist...!"
+    fi
+    cd - >/dev/null
+}
+
+
+repoBackup
