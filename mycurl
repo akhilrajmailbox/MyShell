@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function counter() {
+    while true ; do
+        curl ${1}
+        # sleep 1
+    done
+}
+
+if [[ ! -z ${1} ]] ; then
+    counter ${1}
+else
+    echo "One Argument need to provide"
+    exit 1
+fi
