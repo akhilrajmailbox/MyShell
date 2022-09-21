@@ -1,20 +1,27 @@
 #!/bin/bash
+# run the below command once to invoke MyShell in each terminal
+# echo "source ~/Documents/TerminalBin/myshell/bin/MyScript.sh" > ~/.zshrc
 
-####################################################
-# common #
-####################################################
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+## customize the PATH with your own service bin dir locations
+export PATH=${PATH}:~/Documents/TerminalBin/MyShell/bin:~/Documents/TerminalBin/MyShell/CliClick:~/.bin:/usr/local/bin/google-cloud-sdk/bin
 
-# setting byobu
-if ! env | grep -i byobu > /dev/null ; then
-    byobu
+## Enable kubernetes shell autocompletion
+source <(kubectl completion zsh)
+
+## initial configuration for your shell
+# source ~/Documents/TerminalBin/MyShell/bin/myinit.sh
+
+## cowsay scripts
+if [[ -f ~/Documents/TerminalBin/MyShell/Cowsay/cowsay.sh ]] ; then
+    source ~/Documents/TerminalBin/MyShell/Cowsay/cowsay.sh
 fi
 
-# open Audacity with microphone permission to work
+## open Audacity with microphone permission to work
 alias audacity="open /Applications/Audacity.app/Contents/MacOS/Audacity"
-
-export PATH=${PATH}:/usr/local/bin/google-cloud-sdk/bin
-# The next line enables shell command completion for gcloud.
-if [ -f '/usr/local/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/bin/google-cloud-sdk/completion.zsh.inc'; fi
-
-# export PATH=${PATH}
+## common
 alias zz="cd /Users/akhilraj/Documents/sources"
+alias zc="cd ~/Documents/TerminalBin/MyShell/"
+alias sed="gsed"
+alias gip="echo Gateway IP Address : \$(curl -s https://ifconfig.me)"
