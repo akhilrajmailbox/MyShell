@@ -1,0 +1,124 @@
+#!/bin/bash
+export repoArg="${1}"
+export branchArg=${2}
+export LocalRepos="/Users/akhilraj/Documents/sources"
+export DefaultRepoBranch=(
+        "master"
+        "main"
+)
+
+function usageHelp() {
+cat << EOF
+
+Local Repository Storage : ${LocalRepos}
+repos-update : update all Repository with latest code from remote on default Branches : [ ${DefaultRepoBranch[@]} ]
+
+need to pass all required argument
+usage : repos-update [repo_option] [branch_option]
+
+EOF
+}
+
+function repoHelp() {
+        usageHelp
+cat << EOF
+repo_option :
+        AllRepos                :               All Repository
+        RepoFolder              :               Folder Specific repositories
+        RepoName                :               Single repository name
+
+EOF
+        repoChoice
+        exit 1
+}
+
+function branchHelp() {
+        usageHelp
+cat << EOF
+branch_option :
+    AllBranches         :               All predefined branchs : [ ${DefaultRepoBranch[@]} ]
+    BranchName          :               Single branch name for pull code for the repository
+
+EOF
+        exit 1
+}
+
+function branchChoice() {
+        if [[ ! -z ${branchArg} ]] ; then
+                if [[ ${branchArg} == "AllBranches" ]] ; then
+                        RepoBranch=${DefaultRepoBranch[@]}
+                else
+                        echo "Pulling only ${branchArg} Branch for Repo/RepoGroup : ${repoArg}"
+                        RepoBranch=(
+                                "${branchArg}"
+                        )
+                fi
+        else
+                branchHelp
+        fi
+}
+
+function repoChoice() {
+        RepoFolders=$(ls -l ${LocalRepos} | grep -i "^d" | awk '{print $9}')
+        echo -e "\nChoose one RepoFolder from the below for pull code for all repositories under that folder...!\n"
+        echo -e "${RepoFolders}\n"
+        unset RepoFolders
+}
+
+function pullCode() {
+        if [[ -d ${RepoPath}/.git ]] ; then
+                for mybranch in ${RepoBranch[@]} ; do
+                        cd ${RepoPath}
+                                git fetch
+                                if [[ `git branch -a --list | grep -w "${mybranch}"` || `git branch -a --list | grep -w "remotes/origin/${mybranch}"` ]] ; then
+                                        echo -e "###########################################################################\nFetch the latest code for the repo : ${myrepo} from branch ${mybranch}"
+                                        git checkout ${mybranch}
+                                        git pull
+                                else
+                                        echo "Repo ${myrepo} doesn't have a branch : ${mybranch}"
+                                fi
+                        cd - > /dev/null
+                done
+        else
+                echo "Repo ${RepoPath} not a git repo"
+        fi
+}
+
+function updateRepo() {
+        if [[ ! -z ${repoArg} ]] ; then
+                branchChoice
+                if [[ ${repoArg} == "AllRepos" ]] ; then
+                        RepoFolders=$(ls -l ${LocalRepos}/* | grep -i "^d" | awk '{print $9}')
+                        for myrepo in ${RepoFolders} ; do
+                                RepoPath=$(find ${LocalRepos} -name ${myrepo} -type d | head -1)
+                                pullCode
+                                unset RepoPath
+                        done
+                        unset RepoFolders
+                else
+                        if [[ -d ${LocalRepos}/${repoArg} ]] ; then
+                                RepoFolders=$(ls -l ${LocalRepos}/${repoArg} | grep -i "^d" | awk '{print $9}')
+                                for myrepo in ${RepoFolders} ; do
+                                        RepoPath=$(find ${LocalRepos}/${repoArg} -name ${myrepo} -type d | head -1)
+                                        pullCode
+                                        unset RepoPath
+                                done
+                                unset RepoFolders
+                        else
+                                myrepo=${repoArg}
+                                RepoPath=$(find ${LocalRepos} -name ${myrepo} -type d | head -1)
+                                if [[ ! -z ${RepoPath} ]] ; then
+                                        pullCode
+                                else
+                                        echo "No Folder found : ${myrepo} under : ${LocalRepos}"
+                                fi
+                                unset RepoPath
+                        fi
+                fi
+        else
+                repoHelp
+        fi
+}
+
+
+updateRepo
