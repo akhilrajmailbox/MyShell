@@ -1,5 +1,7 @@
 # My Custom MacOS Terminal
 
+![MyShell](img/myShell.png)
+
 ### Install iterm2
 
 Install iterm2 in your macbook

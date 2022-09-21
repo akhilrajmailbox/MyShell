@@ -1,8 +1,15 @@
 #!/bin/bash
 
-OWNER_USER=akhil
+OWNER_USER=akhilraj
 WAIT_TIME=60
 MyScriptName=`basename ${0}`
+M1Chip=true
+
+if [[ ${M1Chip} == true ]] ; then
+    M1ChipCmd="arch -x86_64"
+else
+    M1ChipCmd=""
+fi
 
 function getPid() {
     MM_PID=$(ps -ef | grep -v grep | grep -v kill | grep -i ${MyScriptName} | awk '{print $2}' | head -1)
@@ -34,7 +41,7 @@ function mvMouse() {
     else
         while true; do
             getMouseLoc
-            `dirname ${0}`/cliclick m:${POINT_LOCATION}
+            ${M1ChipCmd} `dirname ${0}`/cliclick m:${POINT_LOCATION}
             getAlert
             sleep ${WAIT_TIME}
         done
