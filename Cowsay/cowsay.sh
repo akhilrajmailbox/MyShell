@@ -1,6 +1,6 @@
 #!/bin/bash
 RANGE=7
-LOC=~/Documents/TerminalBin/Cowsay/
+LOC=~/Documents/TerminalBin/MyShell/Cowsay/
 number=$RANDOM
 let "number %= $RANGE"
 
