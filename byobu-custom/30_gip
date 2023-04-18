@@ -1,0 +1,6 @@
+#!/bin/bash
+# Copy this file into $BYOBU_CONFIG_DIR/bin/30_gip
+# https://manpages.ubuntu.com/manpages/focal/en/man1/byobu.1.html
+
+echo Gateway IP : $(curl -s https://ifconfig.me)
+#echo -e "\033[1;42m Gateway IP : $(curl -s https://ifconfig.me) \033[0m"

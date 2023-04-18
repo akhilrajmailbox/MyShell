@@ -12,8 +12,8 @@ else
 fi
 
 function getPid() {
-    MM_PID=$(ps -ef | grep -v grep | grep -v kill | grep -i ${MyScriptName} | awk '{print $2}' | head -1)
-    PID_SIZE=$(ps -ef | grep -v grep | grep -i ${MyScriptName} | wc -l)
+    MM_PID=$(ps -ef | grep -v grep | grep -v "${MyScriptName} k" | grep -w ${MyScriptName} | awk '{print $2}' | head -1)
+    PID_SIZE=$(ps -ef | grep -v grep | grep -w ${MyScriptName} | wc -l)
 }
 
 function getAlert() {
@@ -49,9 +49,9 @@ function mvMouse() {
 }
 
 function killMe() {
-    if ps -ef | grep -v grep | grep -v kill | grep -i ${MyScriptName} >/dev/null 2>&1 ; then
-        echo "Killing the Mouse Mover Process ID $(ps -ef | grep -v grep | grep -v kill | grep -i ${MyScriptName} | awk '{print $2}')"
-        kill -9 $(ps -ef | grep -v grep | grep -v kill | grep -i ${MyScriptName} | awk '{print $2}')
+    if ps -ef | grep -v grep | grep -v "${MyScriptName} k" | grep -w ${MyScriptName} >/dev/null 2>&1 ; then
+        echo "Killing the Mouse Mover Process ID $(ps -ef | grep -v grep | grep -v "${MyScriptName} k" | grep -w ${MyScriptName} | awk '{print $2}')"
+        kill -9 $(ps -ef | grep -v grep | grep -v "${MyScriptName} k" | grep -w ${MyScriptName} | awk '{print $2}')
     else
         echo "No Mouse Mover process found..!"
         exit 1
@@ -64,10 +64,10 @@ cat << EOF
 need to pass one arg
 usage : ${0} [arg]
 options :
-    help                    :       Get Help !!!!
-    fg                      :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Foreground
-    bg                      :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Background
-    kill                    :       shutdown the process
+    h                    :       Get Help !!!!
+    f                    :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Foreground
+    b                    :       Move the Mouse point automatically at every ${WAIT_TIME} sec in Background
+    k                    :       shutdown the process
 EOF
 }
 
@@ -77,11 +77,11 @@ EOF
 
 if [[ ${USER} == ${OWNER_USER} ]] ; then
     if [[ ! -z ${1} ]] ; then
-        if [[ ${1} == "fg" ]] ; then
+        if [[ ${1} == "f" ]] ; then
             mvMouse
-        elif [[ ${1} == "bg" ]] ; then
+        elif [[ ${1} == "b" ]] ; then
             mvMouse &
-        elif [[ ${1} == "kill" ]] ; then
+        elif [[ ${1} == "k" ]] ; then
             killMe
         else
             myhelp
