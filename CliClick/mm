@@ -1,15 +1,11 @@
 #!/bin/bash
+# brew install cliclick
 
 OWNER_USER=akhilraj
 WAIT_TIME=60
+CUSTOM_CMD=""
+# CUSTOM_CMD="c:318,26"
 MyScriptName=`basename ${0}`
-M1Chip=true
-
-if [[ ${M1Chip} == true ]] ; then
-    M1ChipCmd="arch -x86_64"
-else
-    M1ChipCmd=""
-fi
 
 function getPid() {
     MM_PID=$(ps -ef | grep -v grep | grep -v "${MyScriptName} k" | grep -w ${MyScriptName} | awk '{print $2}' | head -1)
@@ -28,9 +24,13 @@ function getAlert() {
 }
 
 function getMouseLoc() {
-    X_POINT_LOCATION=$(( ( RANDOM % 1000 )  + 1 ))
-    Y_POINT_LOCATION=$(( ( RANDOM % 1000 )  + 1 ))
-    POINT_LOCATION=${X_POINT_LOCATION},${Y_POINT_LOCATION}
+    if [[ -z ${CUSTOM_CMD} ]] ; then
+        X_POINT_LOCATION=$(( ( RANDOM % 1000 )  + 1 ))
+        Y_POINT_LOCATION=$(( ( RANDOM % 1000 )  + 1 ))
+        EXEC_CMD=m:${X_POINT_LOCATION},${Y_POINT_LOCATION}
+    else
+        EXEC_CMD=${CUSTOM_CMD}
+    fi
 }
 
 function mvMouse() {
@@ -41,7 +41,8 @@ function mvMouse() {
     else
         while true; do
             getMouseLoc
-            ${M1ChipCmd} `dirname ${0}`/cliclick m:${POINT_LOCATION}
+            # `dirname ${0}`/cliclick ${EXEC_CMD}
+            cliclick ${EXEC_CMD}
             getAlert
             sleep ${WAIT_TIME}
         done
