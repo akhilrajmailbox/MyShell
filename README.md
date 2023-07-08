@@ -42,14 +42,12 @@ brew install cliclick
 
 ```shell
 mkdir ~/Documents/TerminalBin
-cp -r MyScript ~/Documents/TerminalBin/
-echo "source ~/Documents/TerminalBin/MyScript" >> ~/.zshrc
-## cowsay and lolcal customization
-cp -r Cowsay ~/Documents/TerminalBin/
-echo "source ~/Documents/TerminalBin/Cowsay/cowsay.sh" >> ~/.zshrc
+cd ~/Documents/TerminalBin
+git clone git@github.com:akhilrajmailbox/MyShell.git
+echo "source ~/Documents/TerminalBin/MyShell/bin/MyScript" >> ~/.zshrc
+rm -rf ~/.oh-my-zsh/themes/agnoster.zsh-theme
+cp -r ~/Documents/TerminalBin/MyShell/conf/agnoster.zsh-theme ~/.oh-my-zsh/themes/agnoster.zsh-theme
 ```
-
-
 
 
 [reference](https://www.freecodecamp.org/news/how-to-configure-your-macos-terminal-with-zsh-like-a-pro-c0ab3f3c1156/)
