@@ -1,6 +1,7 @@
 #!/bin/bash
 export RepoPath=${1}
 export TagName=${2}
+export ForceTag=${3}
 
 function validCheck() {
     if [[ ! -d ${RepoPath} ]] ; then
@@ -13,9 +14,18 @@ function validCheck() {
     fi
 }
 
+function delTag() {
+    if [[ ${ForceTag} == "--force" || ${ForceTag} == "-f" ]] ; then
+        git tag -d ${TagName}
+        git push --delete origin ${TagName}
+        TagExist=false
+    fi
+}
+
 function checkTag() {
     if [ $(git tag -l "${TagName}") ] ; then
         TagExist=true
+        delTag
     else
         TagExist=false
     fi
@@ -38,10 +48,11 @@ function usageHelp() {
 cat << EOF
 
 need to pass all required argument
-usage : ${0} [RepoPath] [TagName]
+usage : ${0} [RepoPath] [TagName] [ForceTag]
 
 RepoPath    :   Absolute path to the repository
 TagName     :   Name for your tag, (optional. if it is empty, then default tag name will choose : tag-$(date +%d%b%Y))
+ForceTag    :   Recreate the tag it is already exist, supported values -f or --force, (optional)
 
 EOF
 } 
