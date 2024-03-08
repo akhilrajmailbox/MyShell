@@ -5,9 +5,10 @@ set mouseApp to current application
 -- tell mouseApp to get my name
 
 -- Setting environment variables
-set scriptType to "cliclick" -- bash or cliclick or python
+set scriptType to "python" -- bash or cliclick or python
 set shScriptPath to "/Users/akhilraj/Documents/TerminalBin/MyShell/CliClick/mm"
 set pyScriptPath to "/Users/akhilraj/Documents/TerminalBin/MyShell/bin/mouseMover.py"
+set cliclickPath to "/opt/homebrew/bin/cliclick"
 set python3Path to "/opt/homebrew/bin/python3"
 
 -- User input
@@ -17,8 +18,8 @@ if scriptType is not "cliclick" then
 	set userInputString to userInput as string
 end if
 
--- Python Script
-if scriptType = "python" then
+-- Bash Script
+if scriptType = "bash" then
 	-- Close connection if mouseMover is Running ; else start the mouseMover
 	if userInputString = "start" then
 		do shell script " " & shScriptPath & " b"
@@ -31,7 +32,7 @@ else if scriptType = "cliclick" then
 		beep
 		set sleepTime to 10
 		set rand to (random number from 1 to 1000)
-		do shell script "/opt/homebrew/bin/cliclick m:" & rand & "," & rand & " "
+		do shell script " " & cliclickPath & " m:" & rand & "," & rand & " "
 		delay sleepTime
 		beep
 		display dialog "Wanna Kill MouseMover Process ?" buttons {"Stop"} giving up after 5
