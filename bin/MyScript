@@ -1,6 +1,9 @@
 #!/bin/bash
 # run the below command once to invoke MyShell in each terminal
 # echo "source ~/Documents/TerminalBin/MyShell/bin/MyScript.sh" > ~/.zshrc
+if [[ ${ITERM_PROFILE} ]]; then
+  export HISTFILE=${HOME}/.zshrc_${ITERM_PROFILE}_history
+fi
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -25,3 +28,16 @@ alias zz="cd /Users/akhilraj/Documents/sources"
 alias zc="cd ~/Documents/TerminalBin/MyShell/"
 alias sed="gsed"
 alias gip="echo Gateway IP Address : \$(curl -s https://ifconfig.me)"
+
+## Multi profile byobu
+alias ms="byobu new -s ${ITERM_PROFILE}"
+ENABLE_MS_BYOBU=false
+if [[ ${ENABLE_MS_BYOBU} == true ]] ; then
+    if [[ -z ${TMUX} ]] ; then
+        if ! byobu ls | grep -w ${ITERM_PROFILE} ; then
+            byobu new -s ${ITERM_PROFILE}
+        else
+            echo "${ITERM_PROFILE} is opened already.....!"
+        fi
+    fi
+fi

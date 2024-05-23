@@ -29,5 +29,5 @@ case $number in
 esac
 
 cat $LOC/$cow | lolcat
-echo "I ❤ DevOps.....🔥🔥🔥🔥🔥🔥" | lolcat -a -d 30
+echo "I ❤ ${ITERM_PROFILE} DevOps.....🔥🔥🔥🔥🔥🔥" | lolcat -a -d 30
 echo ""
