@@ -8,7 +8,7 @@ fi
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 ## customize the PATH with your own service bin dir locations
-export PATH=${PATH}:~/Documents/TerminalBin/MyShell/bin:~/Documents/TerminalBin/MyShell/CliClick:~/.bin:/usr/local/bin/google-cloud-sdk/bin
+export PATH=${PATH}:/opt/homebrew/opt/mysql-client/bin:~/Documents/TerminalBin/MyShell/bin:~/Documents/TerminalBin/MyShell/CliClick:~/.bin:/usr/local/bin/google-cloud-sdk/bin
 
 ## Enable kubernetes shell autocompletion
 source <(kubectl completion zsh)
