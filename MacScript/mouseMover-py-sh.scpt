@@ -9,7 +9,8 @@ set scriptType to "python" -- bash or cliclick or python
 set shScriptPath to "/Users/akhilraj/Documents/TerminalBin/MyShell/CliClick/mm"
 set pyScriptPath to "/Users/akhilraj/Documents/TerminalBin/MyShell/bin/mouseMover.py"
 set cliclickPath to "/opt/homebrew/bin/cliclick"
-set python3Path to "/opt/homebrew/bin/python3"
+-- set python3Path to "/opt/homebrew/bin/python3"
+set python3Path to "python3"
 
 -- User input
 if scriptType is not "cliclick" then
@@ -46,7 +47,7 @@ else if scriptType = "python" then
 		if processNum >= 1 then
 			display dialog "MouseMover Process Already Running" buttons {"OK"} default button "OK"
 		else
-			do shell script " " & python3Path & " " & pyScriptPath & " > /dev/null 2>&1 &"
+			do shell script "source ~/Documents/TerminalBin/MyShell/venv/bin/activate && " & python3Path & " " & pyScriptPath & " > /dev/null 2>&1 &"
 		end if
 	else if userInputString = "stop" then
 		do shell script "ps -ef | grep -i " & pyScriptPath & " | grep -v grep | awk '{print $2}' | xargs -r kill -9"

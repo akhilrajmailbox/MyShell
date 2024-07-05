@@ -1,3 +1,5 @@
+# python3 -m venv ~/Documents/TerminalBin/MyShell/venv
+# source ~/Documents/TerminalBin/MyShell/venv/bin/activate
 # pip3 install pyautogui PyObjC
 from pyautogui import moveTo
 from time import sleep

@@ -10,7 +10,7 @@
 
 * Search for 'Run AppleScript' & double click to open the dialog
 
-* Paste the script and save the Quick Action
+* Paste the script and save the Quick Action --> `MouseMoverShortcut`
 
 * Open System Preferences > Keyboard > Services, under 'General' section set the shortcut key
 
